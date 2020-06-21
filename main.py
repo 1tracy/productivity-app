@@ -113,10 +113,12 @@ def userInputTaskDeadline(taskDeadline, currentDateInMin,y):
         return deltaTime
     
 def getTimeInMin(item):
+    print(item)
     #gets time like '1230' and converts to min relative to 00:00
     hoursToMin = int((item[:2])) * 60
     extraMin = int((item[2:]))
     totalTimeInMin = hoursToMin + extraMin
+    print(totalTimeInMin)
     return (totalTimeInMin)
 
 def getTotalTimeInMin(time,day,m):
@@ -135,7 +137,7 @@ def userInputSetAllocation(alloTimeList):
     #[wakeup,sleep,[breakfastStart, breakfastEnd],[lunchStart, lunchEnd],[dinnerStart, dinnerEnd],[extraBreakStart, extraBreakEnd]]
     #returns a 4 digit string
     parsedAlloTimeList = []
-    for i in range (0,2): 
+    for i in range (0,1): 
         if checkInt(alloTimeList[i]) == True:
             parsedAlloTimeList.append(getTimeInMin(alloTimeList[i]))
     for i in range(2, len(alloTimeList)):

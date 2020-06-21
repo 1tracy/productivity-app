@@ -390,10 +390,16 @@ class AddBusyTimeFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        main.userInputSetAllocation(self.get_data())
+        userInputSetAllocation(self.get_data())
         self.closeWindow()
     def get_data(self):
-        t = [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(), self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(), self.dinnerStartVar.get(), self.dinnerEndVar.get(), self.breakStartVar.get(), self.breakEndVar.get()]
+        t = [self.wakeUpVar.get(),
+             self.sleepVar.get(),
+             [self.breakfastStartVar.get(), self.breakfastEndVar.get()],
+             [self.lunchStartVar.get(), self.lunchEndVar.get()],
+             [self.dinnerStartVar.get(), self.dinnerEndVar.get()],
+             [self.breakStartVar.get(), self.breakEndVar.get()]
+             ]
         return t
     
 def maine():
