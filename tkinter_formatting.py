@@ -1,6 +1,7 @@
 import tkinter as tk
 import csv
 import datetime as dt
+#import main
 
 class MainApplication(tk.Frame):
     def __init__(self, master):
@@ -161,7 +162,12 @@ class AddNewTaskFrame(tk.Frame):
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
+        """
+        send data from get_data to write csv fcn in main py file
+        """
         print("savechanges")
+        
+        
     #getter functions
     def get_data(self):
         temp = []
@@ -177,6 +183,7 @@ class AddNewTaskFrame(tk.Frame):
         temp.append(self.overrideDayVar.get())
         temp.append(self.overrideMonthVar.get())
         temp.append(self.overrideYearVar.get())
+        #main.receivedata(temp)
         return temp
 
 class EditTaskFrame(tk.Frame):
@@ -266,6 +273,7 @@ class EditTaskFrame(tk.Frame):
         temp.append(self.overrideDayVar.get())
         temp.append(self.overrideMonthVar.get())
         temp.append(self.overrideYearVar.get())
+        #main.receivedata(temp)
         return temp
 
 class DeleteFrame(tk.Frame):
@@ -279,17 +287,20 @@ class DeleteFrame(tk.Frame):
         self.taskOptionVar = tk.StringVar()
         self.taskOptionVar.set(self.tasklist[0])
         self.taskOptionMenu = tk.OptionMenu(self, self.taskOptionVar, *self.tasklist).grid(row=2, column=1, columnspan=2)
+        
 
+        self.cancelButton = tk.Button(self, text="Cancel", command= self.closeWindow, font=("Verdana", 10)).grid(row=3, column=1)
+        self.saveButton = tk.Button(self, text="Save", command=self.saveChanges, font=("Verdana", 10)).grid(row=3, column=2)
         self.pack()
     def getTasks(self):
         """
         parse csv to extract task names
         """
-        return (['a', 'b', 'c'])
+        return (['Option1', 'Option2', 'Option3'])
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
-        print("savechanges")
+        print("savechanges")    
 def main():
     root = tk.Tk()
     app = MainApplication(root)
