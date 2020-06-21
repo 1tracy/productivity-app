@@ -30,7 +30,8 @@ class MainApplication(tk.Frame):
         """
         add time where events cannot be scheduled
         """
-        print("addBusyTime")
+        self.newWindow = tk.Toplevel(self)
+        AddBusyTimeFrame(self)
     def addNewTask(self):
         """
         open "add new task" window and update schedule
@@ -184,7 +185,7 @@ class AddNewTaskFrame(tk.Frame):
         temp.append(self.overrideDayVar.get())
         temp.append(self.overrideMonthVar.get())
         temp.append(self.overrideYearVar.get())
-        #main.receivedata(temp)
+        #main.main(temp)
         return temp
 
 class EditTaskFrame(tk.Frame):
@@ -274,7 +275,7 @@ class EditTaskFrame(tk.Frame):
         temp.append(self.overrideDayVar.get())
         temp.append(self.overrideMonthVar.get())
         temp.append(self.overrideYearVar.get())
-        #main.receivedata(temp)
+        #main.main(temp)
         return temp
 
 class DeleteFrame(tk.Frame):
@@ -306,7 +307,65 @@ class DeleteFrame(tk.Frame):
 class AddBusyTimeFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master.newWindow)
-        self.master = master     
+        self.master = master
+
+        self.wakeUpVar = tk.StringVar()
+        self.wakeUpVar.set("0700")
+        self.sleepVar = tk.StringVar()
+        self.sleepVar.set("2200")
+        self.breakfastStartVar = tk.StringVar()
+        self.breakfastStartVar.set("0830")
+        self.breakfastEndVar = tk.StringVar()
+        self.breakfastEndVar.set("0900")
+        self.lunchStartVar = tk.StringVar()
+        self.lunchStartVar.set("1400")
+        self.lunchEndVar = tk.StringVar()
+        self.lunchEndVar.set("1500")
+        self.dinnerStartVar = tk.StringVar()
+        self.dinnerStartVar.set("1900")
+        self.dinnerEndVar = tk.StringVar()
+        self.dinnerEndVar.set("2000")
+        self.breakStartVar = tk.StringVar()
+        self.breakStartVar.set("1700")
+        self.breakEndVar = tk.StringVar()
+        self.breakEndVar.set("1720")
+
+        self.wakeUpLabel = tk.Label(self, text="Wakeup Time", font=("Verdana", 10)).grid(row=1, column=1)
+        self.wakeUpEntry = tk.Entry(self, textvariable=self.wakeUpVar, font=("Verdana", 10)).grid(row=1, column=2)
+        
+        self.sleepLabel = tk.Label(self, text="Sleep Time", font=("Verdana", 10)).grid(row=2, column=1)
+        self.sleepEntry = tk.Entry(self, textvariable=self.sleepVar, font=("Verdana", 10)).grid(row=2, column=2)
+        
+        self.breakfastLabel = tk.Label(self, text="Breakfast Time", font=("Verdana", 10)).grid(row=3, column=1)
+        self.breakfastStartEntry = tk.Entry(self, textvariable=self.breakfastStartVar, font=("Verdana", 10)).grid(row=3, column=2)
+        self.dashLabel = tk.Label(self, text="~", font=("Verdana", 10)).grid(row=3, column=3)
+        self.breakfastEndEntry = tk.Entry(self, textvariable=self.breakfastEndVar, font=("Verdana", 10)).grid(row=3, column=4)
+        
+        self.lunchLabel = tk.Label(self, text="Lunch Time", font=("Verdana", 10)).grid(row=4, column=1)
+        self.lunchStartEntry = tk.Entry(self, textvariable=self.lunchStartVar, font=("Verdana", 10)).grid(row=4, column=2)
+        self.dashLabel = tk.Label(self, text="~", font=("Verdana", 10)).grid(row=4, column=3)
+        self.lunchEndEntry = tk.Entry(self, textvariable=self.lunchEndVar, font=("Verdana", 10)).grid(row=4, column=4)
+
+        self.dinnerLabel = tk.Label(self, text="Dinner Time", font=("Verdana", 10)).grid(row=5, column=1)
+        self.dinnerStartEntry = tk.Entry(self, textvariable=self.dinnerStartVar, font=("Verdana", 10)).grid(row=5, column=2)
+        self.dashLabel = tk.Label(self, text="~", font=("Verdana", 10)).grid(row=5, column=3)
+        self.dinnerEndEntry = tk.Entry(self, textvariable=self.dinnerEndVar, font=("Verdana", 10)).grid(row=5, column=4)
+
+        self.breakLabel = tk.Label(self, text="Break Time", font=("Verdana", 10)).grid(row=6, column=1)
+        self.breakStartEntry = tk.Entry(self, textvariable=self.breakStartVar, font=("Verdana", 10)).grid(row=6, column=2)
+        self.dashLabel = tk.Label(self, text="~", font=("Verdana", 10)).grid(row=6, column=3)
+        self.breakEndEntry = tk.Entry(self, textvariable=self.breakEndVar, font=("Verdana", 10)).grid(row=6, column=4)
+
+        self.cancelButton = tk.Button(self, command=self.closeWindow, text="Cancel", font=("Verdana", 10)).grid(row=7, column=1)
+        self.saveButton = tk.Button(self, command=self.saveChanges, text="Save", font=("Verdana", 10)).grid(row=7, column=4)
+        self.pack()
+        
+        
+    def closeWindow(self):
+        self.master.newWindow.destroy()
+    def saveChanges(self):
+        print("savechanges")
+        #main.deleteTask(self.taskOptionVar())
 def main():
     root = tk.Tk()
     app = MainApplication(root)
