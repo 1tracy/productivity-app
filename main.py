@@ -282,17 +282,24 @@ def generateSchedule():
     for item in allTasksList:
         if item[4] != False:
             weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
-            
+
+    totalSetTime = setTimeList[2][1] + setTimeList[3][1] + setTimeList[4][1] + setTimeList[5][1]
+    count = 0        
     for item in allTasksList:
         if item[4] == False:
-            count = 0
             if count <=6:
-                if (minutesInDayCount[count] + item[2] + setTimeList[2][1] + setTimeList[3][1]) <=(endTime-startTime):
+                if (minutesInDayCount[count] + item[2] + totalSetTime) <=(endTime-startTime):
                     weeklySchedule[count].append([item[0],item[2]])
                     minutesInDayCount[count] += item[2]
                 else:
                     count += 1
-
+    for item in weeklySchedule:
+        item.append(["Breakfast", setTimeList[2]],
+                    ["Lunch",setTimeList[3]],
+                    ["Dinner", setTimeList[4]],
+                    ["Extra Break", setTimeList[5]]
+                    )
+        
     return weeklySchedule
                     
                                 
