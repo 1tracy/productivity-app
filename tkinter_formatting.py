@@ -166,6 +166,7 @@ class AddNewTaskFrame(tk.Frame):
         send data from get_data to write csv fcn in main py file
         """
         print("savechanges")
+        #main.deleteTask(self.taskOptionVar())
         
         
     #getter functions
@@ -288,7 +289,6 @@ class DeleteFrame(tk.Frame):
         self.taskOptionVar.set(self.tasklist[0])
         self.taskOptionMenu = tk.OptionMenu(self, self.taskOptionVar, *self.tasklist).grid(row=2, column=1, columnspan=2)
         
-
         self.cancelButton = tk.Button(self, text="Cancel", command= self.closeWindow, font=("Verdana", 10)).grid(row=3, column=1)
         self.saveButton = tk.Button(self, text="Save", command=self.saveChanges, font=("Verdana", 10)).grid(row=3, column=2)
         self.pack()
@@ -300,7 +300,13 @@ class DeleteFrame(tk.Frame):
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
-        print("savechanges")    
+        print("savechanges")
+        #main.deleteTask(self.taskOptionVar())
+
+class AddBusyTimeFrame(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master.newWindow)
+        self.master = master     
 def main():
     root = tk.Tk()
     app = MainApplication(root)
