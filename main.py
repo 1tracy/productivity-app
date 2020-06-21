@@ -92,6 +92,9 @@ def userInputSetAllocation(alloTimeList):
 
     return parsedAlloTimeList
 
+def receivedata(data):
+    return data
+    
 #organizedList = [userInputNameAndDesc(nameAndDesc)
 
 test =['0800','2100',['0830', '0900'],['1130', '1230'],['1845', '1930'],['1520', '1630']]
