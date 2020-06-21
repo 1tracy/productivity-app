@@ -1,7 +1,7 @@
 import tkinter as tk
 import csv
 import datetime as dt
-#import main
+from main import *
 
 class MainApplication(tk.Frame):
     def __init__(self, master):
@@ -177,7 +177,8 @@ class AddNewTaskFrame(tk.Frame):
         """
         print("savechanges")
         if self.completed:
-            #main.deleteTask(self.taskOptionVar())
+            print("Ee")
+            main(self.get_data())
             self.closeWindow()
         
         
@@ -188,9 +189,11 @@ class AddNewTaskFrame(tk.Frame):
         temp.append(self.descVar.get())
         temp.append(self.importanceVar.get())
         temp.append(self.lengthVar.get())
-        temp.append(self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get())
-        temp.append(self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get())
-        #main.main(temp)
+        temp2 = [self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get()]
+        temp.append(temp2)
+        temp3 = [self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get()]
+        temp.append(temp3)
+        main(temp)
         return temp
 
 class EditTaskFrame(tk.Frame):
@@ -374,12 +377,12 @@ class AddBusyTimeFrame(tk.Frame):
         print("savechanges")
         #main.deleteTask(self.taskOptionVar())
         self.closeWindow()
-def main():
+def maine():
     root = tk.Tk()
     app = MainApplication(root)
     root.mainloop()
 
 if __name__ == '__main__':
-    main()
+    maine()
 
             

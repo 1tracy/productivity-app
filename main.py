@@ -119,7 +119,9 @@ def writeToCsv(taskInfo):
         writer.writerow(taskInfo)
 
 def main(data):
+    print("s")
     writeToCsv(organizedTaskInfo(data))
+    print("ss")
 
 
             
