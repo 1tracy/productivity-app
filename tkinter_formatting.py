@@ -3,6 +3,7 @@ import csv
 import datetime as dt
 from main import *
 
+
 class MainApplication(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -176,10 +177,10 @@ class AddNewTaskFrame(tk.Frame):
         send data from get_data to write csv fcn in main py file
         """
         print("savechanges")
-        #if self.completed:
-        print("Ee")
-        main(self.get_data())
-        self.closeWindow()
+        if self.completed():
+            print("Ee")
+            main(self.get_data())
+            self.closeWindow()
         
         
     #getter functions
@@ -202,8 +203,13 @@ class EditTaskFrame(tk.Frame):
 
         self.anameVar = tk.StringVar()
         self.anameLabel = tk.Label(self, text="Name: ", font=("Verdana", 10)).grid(row=1, column=1)
-        self.anameEntry = tk.Entry(self, textvariable=self.anameVar, font=("Verdana", 10), width=50).grid(row=1, column=2, columnspan=4)
+        #self.tasklist = getTaskNames()
+        self.tasklist = ['task 1', 'task 2', 'task 3', 'task 4']
+        self.anameEntry = tk.OptionMenu(self, self.anameVar, font=("Verdana", 10), width=50, *self.tasklist).grid(row=1, column=2, columnspan=4)
 
+        if self.anameVar in self.tasklist:
+            self.updateWithSaved()
+        
         self.adescVar = tk.StringVar()
         self.adescLabel = tk.Label(self, text="Description: ", font=("Verdana", 10)).grid(row=2, column=1)
         self.adescEntry = tk.Entry(self, textvariable=self.adescVar, font=("Verdana", 10), width=50).grid(row=2, column=2, columnspan=4)
@@ -259,10 +265,13 @@ class EditTaskFrame(tk.Frame):
         call function in other file with write to csv
         """
         print("savechanges")
+        #if self.completed():
+        #   main(self.get_data())
     def completed(self):
         """
         if name and task length is filled out
         """
+        print("completed " + self.anameVar.get() + self.alengthVar.get())
         if self.anameVar.get() != "" and self.alengthVar.get() != "":
             return True
         return False
@@ -271,7 +280,11 @@ class EditTaskFrame(tk.Frame):
         call function in other file with task name receive csv information
         """
         print("update with saved")
-        if self.completed: 
+        if self.completed:
+            #biglist = getDataFromCSV
+            #set variables to biglist indexes
+            #self.anameVar.set(#)
+            #...
             self.aoverrideYearVar.set("edited")
 
     #getter functions
@@ -283,7 +296,6 @@ class EditTaskFrame(tk.Frame):
         temp.append(self.alengthVar.get())
         temp.append(self.adeadlineTimeVar.get(), self.adeadlineDayVar.get(), self.adeadlineMonthVar.get(), self.adeadlineYearVar.get())
         temp.append(self.aoverrideTimeVar.get(), self.aoverrideDayVar.get(), self.aoverrideMonthVar.get(), self.aoverrideYearVar.get())
-        #main.main(temp)
         return temp
 
 class DeleteFrame(tk.Frame):
@@ -305,6 +317,7 @@ class DeleteFrame(tk.Frame):
         """
         parse csv to extract task names
         """
+        #temp = main.getTaskNames() <- list format
         return (['Option1', 'Option2', 'Option3'])
     def closeWindow(self):
         self.master.newWindow.destroy()
@@ -374,8 +387,12 @@ class AddBusyTimeFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        #main.deleteTask(self.taskOptionVar())
+        #main.addBreakTimes(self.get_data())
         self.closeWindow()
+    def get_data(self):
+        t = [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(), self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(), self.dinnerStartVar.get(), self.dinnerEndVar.get(), self.breakStartVar.get(), self.breakEndVar.get()]
+        return t
+    
 def maine():
     root = tk.Tk()
     app = MainApplication(root)
