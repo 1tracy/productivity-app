@@ -384,13 +384,13 @@ class AddBusyTimeFrame(tk.Frame):
         self.cancelButton = tk.Button(self, command=self.closeWindow, text="Cancel", font=("Verdana", 10)).grid(row=7, column=1)
         self.saveButton = tk.Button(self, command=self.saveChanges, text="Save", font=("Verdana", 10)).grid(row=7, column=4)
         self.pack()
-        
+        ##
         
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        #main.addBreakTimes(self.get_data())
+        main.userInputSetAllocation(self.get_data())
         self.closeWindow()
     def get_data(self):
         t = [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(), self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(), self.dinnerStartVar.get(), self.dinnerEndVar.get(), self.breakStartVar.get(), self.breakEndVar.get()]
