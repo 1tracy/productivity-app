@@ -65,45 +65,7 @@ def deleteTask(task_name):
             else:
                 return "task name not found"
 
-def getTaskNames():
-    """
-    return a list of task names from CSV
-    """
-    pass
 
-def getPrevDay(day, month, year):
-    """
-    day, month, year are numerical strings
-    return calendar list for prev day
-    """
-    pass
-
-def getNextDay(day, month, year):
-    pass
-
-def getDataFromCSV(task_name):
-    """
-    return list from CSV for task name specifically
-    """
-    pass
-
-
-def deleteTask(task_name):
-    """
-    delete task from CSV given task name
-    """
-    pass
-
-def addBreakTimes(breaklist):
-    """
-    add break times given break list
-    format:
-    [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(),
-    self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(),
-    self.dinnerStartVar.get(),self.dinnerEndVar.get(), self.breakStartVar.get(),
-    self.breakEndVar.get()]
-    """
-    pass
 #check if it is interger
 def checkInt(s):
     try: 
