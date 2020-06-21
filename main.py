@@ -36,6 +36,7 @@ def getDataFromCSV(task_name):
     """
     pass
 
+
 def deleteTask(task_name):
     """
     delete task from CSV given task name

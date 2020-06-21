@@ -60,14 +60,16 @@ class MainApplication(tk.Frame):
         updates calendar to previous day
         """
         print("prevDay")
-        #data = getPrevDay(
+        #data = getPrevDay(dt.datetime.today().day, str(self._m), self._y)
+        #self.scheduleVar.set(data)
         
     def nextDay(self):
         """
         updates calendar to next day
         """
         print("nextDay")
-        
+        #data = getNextDay(dt.datetime.today().day, str(self._m), self._y)
+        #Self.scheduleVar.set(data)
     def getdate(self):
         """
         get date from datetime function
@@ -265,8 +267,9 @@ class EditTaskFrame(tk.Frame):
         call function in other file with write to csv
         """
         print("savechanges")
-        #if self.completed():
-        #   main(self.get_data())
+        if self.completed():
+           main(self.get_data())
+           self.closeWindow()
     def completed(self):
         """
         if name and task length is filled out
@@ -281,7 +284,7 @@ class EditTaskFrame(tk.Frame):
         """
         print("update with saved")
         if self.completed:
-            #biglist = getDataFromCSV
+            #biglist = getDataFromCSV(self.anameVar.get())
             #set variables to biglist indexes
             #self.anameVar.set(#)
             #...
