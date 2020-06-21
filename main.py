@@ -1,6 +1,9 @@
 dateDict = {1:31, 2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+setTimeList = []
 import datetime as dt
 import csv
+import random
+
 time = dt.datetime.today().strftime('%H:%M:%S')
 m = int(dt.datetime.today().strftime('%m'))
 y = int(dt.datetime.today().year)
@@ -13,6 +16,54 @@ day = int(dt.datetime.today().day)
 #-Time slots for liesure 
 #-Deadline
 #-Time slot override (time & date)
+def getTaskNames():
+    """
+    return a list of task names from CSV
+    """
+    with open ("csvOfTasks.csv", "r") as csvFile:
+        readCSV = csv.reader(csvFile, delimiter=',')
+        taskNames = []
+        for row in readCSV:
+            taskNames.append(row[0][0])
+        return taskNames
+    
+
+def getPrevDay(day, month, year):
+    """
+    day, month, year are numerical strings
+    return calendar list for prev day
+    """
+    pass
+
+def getNextDay(day, month, year):
+    pass
+
+def getDataFromCSV(task_name):
+    """
+    return list from CSV for task name specifically
+    """
+    with open ("csvOfTasks.csv", "r") as csvFile:
+        readCSV = csv.reader(csvFile, delimiter=',')
+        for row in readCSV:
+            if row[0][0] == task_name:
+                return row
+            else:
+                return "task not found"
+    
+
+
+def deleteTask(task_name):
+    """
+    delete task from CSV given task name
+    """
+    with open ("csvOfTasks.csv") as csvFile:
+        readCSV = csv.reader(csvFile, delimiter=',')
+        writer = csv.writer(csvFile)
+        for row in readCSV:
+            if row[0][0] == task_name:
+                writer.writerow(row)
+            else:
+                return "task name not found"
 
 #check if it is interger
 def checkInt(s):
@@ -95,7 +146,7 @@ def userInputSetAllocation(alloTimeList):
         smallList.append(length)
         parsedAlloTimeList.append(smallList)
 
-    return parsedAlloTimeList
+    setTimeList = parsedAlloTimeList #[startmin, endmin....]
 
 def userInputOverride(override):
     if override == ['','','','']:
@@ -109,7 +160,8 @@ def organizedTaskInfo(data):
         userInputImportance(data[2]),
         userInputLength(data[3]),
         userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
-        userInputOverride(data[5])
+        userInputOverride(data[5]),
+        round(userInputImportance(data[2])/userInputLength(data[3])),
         ]
     
 
@@ -118,8 +170,95 @@ def writeToCsv(taskInfo):
         writer = csv.writer(csvFile)
         writer.writerow(taskInfo)
 
+
+def countingSort(aList):
+    #find max importance/time
+    temp = []
+    for i in range(0, max(aList) + 1):
+        temp.append(aList[5])
+        
+    #create the key or counting array based on max value in list
+    key = []
+    for i in range(0, max(temp) + 1):
+        key.append(0)
+
+    #iterate through given list and increase counters of key
+    #for each element in list
+    for num in aList:
+        #increase the respective counter by 1
+        key[num[5]] += 1
+
+
+    #create a new list with values in sorted order based on couters of key
+    sortedList = []
+    #for each counter, starting from smallest key
+    for i in range(0, len(key)):
+        counter = key[i]
+
+        #while counter is non-zero
+        while(counter > 0):
+            #restore element to list
+            sortedList.append(i)
+            #decrease counter by 1
+            counter -= 1
+
+    return sortedList
+
+def convertMinIntoTime(mins):
+    hour = mins//60
+    minute = mins%60
+    return f'{hour}:{minute}'
+        
+def gatherAllTasks():
+    """
+    Gathers all the tasks into a big list
+    """
+    bigList = []
+
+    with open ("csvOfTasks.csv") as csvFile:
+        reader = csv.reader(csvFile)
+        for row in reader:
+            bigList.append(row)
+    return bigList
+    
+    
+def generateSchedule():
+    """
+    Generates the weekly schedule
+    """
+    minutesInDayCount = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
+    ogranizedList = organizeDataFromCSV()
+    allTasksList = gatherAllTasks()
+    organizedListRatioBased = countingSort(allTasksList)
+    weeklySchedule = []
+    startTime = setTimeList[0]
+    endTime = setTimeList[1]
+    
+    for i in range (0,6):
+        weeklySchedule.append([])
+        
+    for item in allTasksList:
+        if item[4] != False:
+            weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
+            
+    for item in allTasksList:
+        if item[4] == False:
+            count = 0
+            if count <=6:
+                if (minutesInDayCount[count] + item[2] + setTimeList[2][1] + setTimeList[3][1]) <=(endTime-startTime):
+                    weeklySchedule[count].append([item[0],item[2]])
+                    minutesInDayCount[count] += item[2]
+                else:
+                    count += 1
+
+    return weeklySchedule
+                    
+                                
+    
+    
 def main(data):
     writeToCsv(organizedTaskInfo(data))
+    
 
 
             
