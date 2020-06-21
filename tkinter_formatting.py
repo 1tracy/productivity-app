@@ -176,10 +176,10 @@ class AddNewTaskFrame(tk.Frame):
         send data from get_data to write csv fcn in main py file
         """
         print("savechanges")
-        if self.completed:
-            print("Ee")
-            main(self.get_data())
-            self.closeWindow()
+        #if self.completed:
+        print("Ee")
+        main(self.get_data())
+        self.closeWindow()
         
         
     #getter functions
