@@ -162,6 +162,22 @@ class AddNewTaskFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
+    #getter functions
+    def get_data(self):
+        temp = []
+        temp.append(self.nameVar.get())
+        temp.append(self.descVar.get())
+        temp.append(self.importanceVar.get())
+        temp.append(self.lengthVar.get())
+        temp.append(self.deadlineTimeVar.get())
+        temp.append(self.deadlineDayVar.get())
+        temp.append(self.deadlineMonthVar.get())
+        temp.append(self.deadlineYearVar.get())
+        temp.append(self.overrideTimeVar.get())
+        temp.append(self.overrideDayVar.get())
+        temp.append(self.overrideMonthVar.get())
+        temp.append(self.overrideYearVar.get())
+        return temp
 
 class EditTaskFrame(tk.Frame):
     def __init__(self, master):
@@ -224,10 +240,33 @@ class EditTaskFrame(tk.Frame):
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
+        """
+        call function in other file with write to csv
+        """
         print("savechanges")
     def updateWithSaved(self):
+        """
+        call function in other file with task name receive csv information
+        """
         print("update with saved")
         self.overrideYearVar.set("edited")
+
+    #getter functions
+    def get_data(self):
+        temp = []
+        temp.append(self.nameVar.get())
+        temp.append(self.descVar.get())
+        temp.append(self.importanceVar.get())
+        temp.append(self.lengthVar.get())
+        temp.append(self.deadlineTimeVar.get())
+        temp.append(self.deadlineDayVar.get())
+        temp.append(self.deadlineMonthVar.get())
+        temp.append(self.deadlineYearVar.get())
+        temp.append(self.overrideTimeVar.get())
+        temp.append(self.overrideDayVar.get())
+        temp.append(self.overrideMonthVar.get())
+        temp.append(self.overrideYearVar.get())
+        return temp
 
 class DeleteFrame(tk.Frame):
     def __init__(self, master):
