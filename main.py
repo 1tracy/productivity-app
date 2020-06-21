@@ -1,5 +1,6 @@
 dateDict = {1:31, 2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
 import datetime as dt
+import csv
 time = dt.datetime.today().strftime('%H:%M:%S')
 m = int(dt.datetime.today().strftime('%m'))
 y = int(dt.datetime.today().year)
@@ -21,18 +22,11 @@ def checkInt(s):
     except ValueError:
         return False
     
-def userInputNameAndDesc(nameAndDesc):
+def userInputNameAndDesc(name, desc):
     #nameAndDesc is a list of 2 items
-    return nameAndDesc 
+    return [name, desc]
 
 
-def userInputLength(length):
-    #length recived as a string, convert to int
-    #in minutes
-    if checkInt(length) == True:
-        return int (length)
-    else:
-        return "enter a valid task length"
 
 def userInputImportance(importance):
     #this is a string, convert to int
@@ -40,19 +34,30 @@ def userInputImportance(importance):
     if checkInt (importance) == True:
         if int(importance) <= 100:
             return int(importance)
+    elif importance == '':
+        return -1
     else:
         return "enter a valid importance between 1-100"
-
+    
+def userInputLength(length):
+    #length recived as a string, convert to int
+    #in minutes
+    if checkInt(length) == True:
+        return int (length)
+    else:
+        return "enter a valid task length"
+    
 def userInputTaskDeadline(taskDeadline, currentDateInMin,y):
     #given ['time', 'date', 'month', 'year']
     #time is formatted like hr:min:sec
     #convert into minutes assume not leapyear
     #find relative minutes to the current time
+    time = taskDeadline[0][:2] + ":" + taskDeadline[0][2:] +":00"
     if int(taskDeadline[3]) >  y:
-        deltaTime = (525600 - currentDateInMin) + getTotalTimeInMin(taskDeadline[0],int(taskDeadline[1]), int(taskDeadline[2]))
+        deltaTime = (525600 - currentDateInMin) + getTotalTimeInMin(time,int(taskDeadline[1]), int(taskDeadline[2]))
         return deltaTime
     else:
-        deltaTime = getTotalTimeInMin(taskDeadline[0],int(taskDeadline[1]), int(taskDeadline[2])) - currentDateInMin
+        deltaTime = getTotalTimeInMin(time,int(taskDeadline[1]), int(taskDeadline[2])) - currentDateInMin
         return deltaTime
     
 def getTimeInMin(item):
@@ -92,11 +97,31 @@ def userInputSetAllocation(alloTimeList):
 
     return parsedAlloTimeList
 
-#organizedList = [userInputNameAndDesc(nameAndDesc)
+def userInputOverride(override):
+    if override == ['','','','']:
+        return False
+    else:
+        return override
+    
+def organizedTaskInfo(data):
+    organizedList = [
+        userInputNameAndDesc(data[0], data[1]),
+        userInputImportance(data[2]),
+        userInputLength(data[3]),
+        userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
+        userInputOverride(data[5])
+        ]
+    
 
-test =['0800','2100',['0830', '0900'],['1130', '1230'],['1845', '1930'],['1520', '1630']]
+def writeToCsv(taskInfo):
+    with open ("csvOfTasks.csv", "a") as csvFile:
+        writer = csv.writer(csvFile)
+        writer.writerow(taskInfo)
 
-print(userInputSetAllocation(test))
+def main(data):
+    writeToCsv(organizedTaskInfo(data))
+
+
             
 
     
