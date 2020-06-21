@@ -59,6 +59,7 @@ class MainApplication(tk.Frame):
         updates calendar to previous day
         """
         print("prevDay")
+        #data = getPrevDay(
         
     def nextDay(self):
         """
@@ -177,14 +178,8 @@ class AddNewTaskFrame(tk.Frame):
         temp.append(self.descVar.get())
         temp.append(self.importanceVar.get())
         temp.append(self.lengthVar.get())
-        temp.append(self.deadlineTimeVar.get())
-        temp.append(self.deadlineDayVar.get())
-        temp.append(self.deadlineMonthVar.get())
-        temp.append(self.deadlineYearVar.get())
-        temp.append(self.overrideTimeVar.get())
-        temp.append(self.overrideDayVar.get())
-        temp.append(self.overrideMonthVar.get())
-        temp.append(self.overrideYearVar.get())
+        temp.append(self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get())
+        temp.append(self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get())
         #main.main(temp)
         return temp
 
@@ -267,14 +262,8 @@ class EditTaskFrame(tk.Frame):
         temp.append(self.descVar.get())
         temp.append(self.importanceVar.get())
         temp.append(self.lengthVar.get())
-        temp.append(self.deadlineTimeVar.get())
-        temp.append(self.deadlineDayVar.get())
-        temp.append(self.deadlineMonthVar.get())
-        temp.append(self.deadlineYearVar.get())
-        temp.append(self.overrideTimeVar.get())
-        temp.append(self.overrideDayVar.get())
-        temp.append(self.overrideMonthVar.get())
-        temp.append(self.overrideYearVar.get())
+        temp.append(self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get())
+        temp.append(self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get())
         #main.main(temp)
         return temp
 
