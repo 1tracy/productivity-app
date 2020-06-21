@@ -120,8 +120,7 @@ class AddNewTaskFrame(tk.Frame):
         self.descEntry = tk.Entry(self, textvariable=self.descVar, font=("Verdana", 10), width=50).grid(row=2, column=2, columnspan=4)
 
         self.importanceVar = tk.StringVar()
-        self.importanceVar.set("100 is most important")
-        self.importanceLabel = tk.Label(self, text="Level Of Importance(1-100):", font=("Verdana", 10)).grid(row=3, column=1)
+        self.importanceLabel = tk.Label(self, text="Level Of Importance(1-100 (Least to Most)):", font=("Verdana", 10)).grid(row=3, column=1)
         self.importanceEntry = tk.Entry(self, textvariable=self.importanceVar, font=("Verdana", 10), width=50).grid(row=3, column=2, columnspan=4)
 
         self.lengthVar = tk.StringVar()
@@ -129,38 +128,47 @@ class AddNewTaskFrame(tk.Frame):
         self.lengthEntry = tk.Entry(self, textvariable=self.lengthVar, font=("Verdana", 10), width=50).grid(row=4, column=2, columnspan=4)
 
         self.deadlineTimeVar = tk.StringVar()
-        self.deadlineTimeVar.set("24hr format due date")
         self.deadlineDayVar = tk.StringVar()
-        self.deadlineDayVar.set("Day")
         self.deadlineMonthVar = tk.StringVar()
-        self.deadlineMonthVar.set("Month")
         self.deadlineYearVar = tk.StringVar()
-        self.deadlineYearVar.set("Year")
         
         self.deadlineLabel = tk.Label(self, text="Deadline: ", font=("Verdana", 10)).grid(row=5, column=1)
         self.deadlineTimeEntry = tk.Entry(self,textvariable=self.deadlineTimeVar, font=("Verdana", 10)).grid(row=5, column=2)
+        self.templabel = tk.Label(self, text="24 hour format due date", font=("Verdana", 10)).grid(row=6, column=2)
         self.deadlineDayEntry = tk.Entry(self, width=10,textvariable=self.deadlineDayVar, font=("Verdana", 10)).grid(row=5, column=3)
+        self.templabel = tk.Label(self, text="Day", font=("Verdana", 10)).grid(row=6, column=3)
         self.deadlineMonthEntry = tk.Entry(self, width=10,textvariable=self.deadlineMonthVar, font=("Verdana", 10)).grid(row=5, column=4)
+        self.templabel = tk.Label(self, text="Month", font=("Verdana", 10)).grid(row=6, column=4)
         self.deadlineYearEntry = tk.Entry(self, width=10, textvariable=self.deadlineYearVar, font=("Verdana", 10)).grid(row=5, column=5)
+        self.templabel = tk.Label(self, text="Year", font=("Verdana", 10)).grid(row=6, column=5)
 
         self.overrideTimeVar = tk.StringVar()
-        self.overrideTimeVar.set("start time (ex. 2210)")
         self.overrideDayVar = tk.StringVar()
-        self.overrideDayVar.set("Day")
         self.overrideMonthVar = tk.StringVar()
-        self.overrideMonthVar.set("Month")
         self.overrideYearVar = tk.StringVar()
-        self.overrideYearVar.set("Year")
 
-        self.overrideLabel = tk.Label(self, text="Time Slot Override: ", font=("Verdana", 10)).grid(row=6, column=1)
-        self.overrideTimeEntry = tk.Entry(self, textvariable=self.overrideTimeVar, font=("Verdana", 10)).grid(row=6, column=2)
-        self.overrideDayEntry = tk.Entry(self, textvariable=self.overrideDayVar, font=("Verdana", 10), width=10).grid(row=6, column=3)
-        self.overrideMonthEntry = tk.Entry(self, textvariable=self.overrideMonthVar, font=("Verdana", 10), width=10).grid(row=6, column=4)
-        self.overrideYearEntry = tk.Entry(self, textvariable=self.overrideYearVar, font=("Verdana", 10), width=10).grid(row=6, column=5)
+        self.overrideLabel = tk.Label(self, text="Time Slot Override: ", font=("Verdana", 10)).grid(row=7, column=1)
+        self.overrideTimeEntry = tk.Entry(self, textvariable=self.overrideTimeVar, font=("Verdana", 10)).grid(row=7, column=2)
+        self.templabel = tk.Label(self, text="24 hour format due date", font=("Verdana", 10)).grid(row=8, column=2)
+        self.overrideDayEntry = tk.Entry(self, textvariable=self.overrideDayVar, font=("Verdana", 10), width=10).grid(row=7, column=3)
+        self.templabel = tk.Label(self, text="Day", font=("Verdana", 10)).grid(row=8, column=3)
+        self.overrideMonthEntry = tk.Entry(self, textvariable=self.overrideMonthVar, font=("Verdana", 10), width=10).grid(row=7, column=4)
+        self.templabel = tk.Label(self, text="Month", font=("Verdana", 10)).grid(row=8, column=4)
+        self.overrideYearEntry = tk.Entry(self, textvariable=self.overrideYearVar, font=("Verdana", 10), width=10).grid(row=7, column=5)
+        self.templabel = tk.Label(self, text="Year", font=("Verdana", 10)).grid(row=8, column=5)
 
-        self.cancelButton = tk.Button(self, text="Cancel", command=self.closeWindow, width=10, font=("Verdana", 10)).grid(row=7, column=1)
-        self.saveButton = tk.Button(self, text="Save", command=self.saveChanges, width=10, font=("Verdana", 10)).grid(row=7, column=5)
+        self.cancelButton = tk.Button(self, text="Cancel", command=self.closeWindow, width=10, font=("Verdana", 10)).grid(row=9, column=1)
+        self.saveButton = tk.Button(self, text="Save", command=self.saveChanges, width=10, font=("Verdana", 10)).grid(row=9, column=5)
+
+
         self.pack()
+    def completed(self):
+        """
+        if name and task length is filled out
+        """
+        if self.nameVar.get() != "" and self.lengthVar.get() != "":
+            return True
+        return False
     def closeWindow(self):
         self.master.newWindow.destroy()
     def saveChanges(self):
@@ -168,7 +176,9 @@ class AddNewTaskFrame(tk.Frame):
         send data from get_data to write csv fcn in main py file
         """
         print("savechanges")
-        #main.deleteTask(self.taskOptionVar())
+        if self.completed:
+            #main.deleteTask(self.taskOptionVar())
+            self.closeWindow()
         
         
     #getter functions
@@ -188,56 +198,55 @@ class EditTaskFrame(tk.Frame):
         tk.Frame.__init__(self, master.newWindow)
         self.master = master
 
-        self.nameVar = tk.StringVar()
-        self.nameLabel = tk.Label(self, text="Name: ", font=("Verdana", 10)).grid(row=1, column=1)
-        self.nameEntry = tk.Entry(self, textvariable=self.nameVar, font=("Verdana", 10), width=50).grid(row=1, column=2, columnspan=4)
+        self.anameVar = tk.StringVar()
+        self.anameLabel = tk.Label(self, text="Name: ", font=("Verdana", 10)).grid(row=1, column=1)
+        self.anameEntry = tk.Entry(self, textvariable=self.anameVar, font=("Verdana", 10), width=50).grid(row=1, column=2, columnspan=4)
 
-        self.descVar = tk.StringVar()
-        self.descLabel = tk.Label(self, text="Description: ", font=("Verdana", 10)).grid(row=2, column=1)
-        self.descEntry = tk.Entry(self, textvariable=self.descVar, font=("Verdana", 10), width=50).grid(row=2, column=2, columnspan=4)
+        self.adescVar = tk.StringVar()
+        self.adescLabel = tk.Label(self, text="Description: ", font=("Verdana", 10)).grid(row=2, column=1)
+        self.adescEntry = tk.Entry(self, textvariable=self.adescVar, font=("Verdana", 10), width=50).grid(row=2, column=2, columnspan=4)
 
-        self.importanceVar = tk.StringVar()
-        self.importanceVar.set("100 is most important")
-        self.importanceLabel = tk.Label(self, text="Level Of Importance(1-100):", font=("Verdana", 10)).grid(row=3, column=1)
-        self.importanceEntry = tk.Entry(self, textvariable=self.importanceVar, font=("Verdana", 10), width=50).grid(row=3, column=2, columnspan=4)
+        self.aimportanceVar = tk.StringVar()
+        self.aimportanceLabel = tk.Label(self, text="Level Of Importance(1-100 (Least to Most)):", font=("Verdana", 10)).grid(row=3, column=1)
+        self.aimportanceEntry = tk.Entry(self, textvariable=self.aimportanceVar, font=("Verdana", 10), width=50).grid(row=3, column=2, columnspan=4)
 
-        self.lengthVar = tk.StringVar()
-        self.lengthLabel = tk.Label(self, text="Task Length (minutes): ", font=("Verdana", 10)).grid(row=4, column=1)
-        self.lengthEntry = tk.Entry(self, textvariable=self.lengthVar, font=("Verdana", 10), width=50).grid(row=4, column=2, columnspan=4)
+        self.alengthVar = tk.StringVar()
+        self.alengthLabel = tk.Label(self, text="Task Length (minutes): ", font=("Verdana", 10)).grid(row=4, column=1)
+        self.alengthEntry = tk.Entry(self, textvariable=self.alengthVar, font=("Verdana", 10), width=50).grid(row=4, column=2, columnspan=4)
 
-        self.deadlineTimeVar = tk.StringVar()
-        self.deadlineTimeVar.set("24hr format due date")
-        self.deadlineDayVar = tk.StringVar()
-        self.deadlineDayVar.set("Day")
-        self.deadlineMonthVar = tk.StringVar()
-        self.deadlineMonthVar.set("Month")
-        self.deadlineYearVar = tk.StringVar()
-        self.deadlineYearVar.set("Year")
+        self.adeadlineTimeVar = tk.StringVar()
+        self.adeadlineDayVar = tk.StringVar()
+        self.adeadlineMonthVar = tk.StringVar()
+        self.adeadlineYearVar = tk.StringVar()
         
-        self.deadlineLabel = tk.Label(self, text="Deadline: ", font=("Verdana", 10)).grid(row=5, column=1)
-        self.deadlineTimeEntry = tk.Entry(self,textvariable=self.deadlineTimeVar, font=("Verdana", 10)).grid(row=5, column=2)
-        self.deadlineDayEntry = tk.Entry(self, width=10,textvariable=self.deadlineDayVar, font=("Verdana", 10)).grid(row=5, column=3)
-        self.deadlineMonthEntry = tk.Entry(self, width=10,textvariable=self.deadlineMonthVar, font=("Verdana", 10)).grid(row=5, column=4)
-        self.deadlineYearEntry = tk.Entry(self, width=10, textvariable=self.deadlineYearVar, font=("Verdana", 10)).grid(row=5, column=5)
+        self.adeadlineLabel = tk.Label(self, text="Deadline: ", font=("Verdana", 10)).grid(row=5, column=1)
+        self.adeadlineTimeEntry = tk.Entry(self,textvariable=self.adeadlineTimeVar, font=("Verdana", 10)).grid(row=5, column=2)
+        self.atemplabel = tk.Label(self, text="24 hour format due date", font=("Verdana", 10)).grid(row=6, column=2)
+        self.adeadlineDayEntry = tk.Entry(self, width=10,textvariable=self.adeadlineDayVar, font=("Verdana", 10)).grid(row=5, column=3)
+        self.atemplabel = tk.Label(self, text="Day", font=("Verdana", 10)).grid(row=6, column=3)
+        self.adeadlineMonthEntry = tk.Entry(self, width=10,textvariable=self.adeadlineMonthVar, font=("Verdana", 10)).grid(row=5, column=4)
+        self.atemplabel = tk.Label(self, text="Month", font=("Verdana", 10)).grid(row=6, column=4)
+        self.adeadlineYearEntry = tk.Entry(self, width=10, textvariable=self.adeadlineYearVar, font=("Verdana", 10)).grid(row=5, column=5)
+        self.atemplabel = tk.Label(self, text="Year", font=("Verdana", 10)).grid(row=6, column=5)
 
-        self.overrideTimeVar = tk.StringVar()
-        self.overrideTimeVar.set("start time (ex. 2210)")
-        self.overrideDayVar = tk.StringVar()
-        self.overrideDayVar.set("Day")
-        self.overrideMonthVar = tk.StringVar()
-        self.overrideMonthVar.set("Month")
-        self.overrideYearVar = tk.StringVar()
-        self.overrideYearVar.set("Year")
+        self.aoverrideTimeVar = tk.StringVar()
+        self.aoverrideDayVar = tk.StringVar()
+        self.aoverrideMonthVar = tk.StringVar()
+        self.aoverrideYearVar = tk.StringVar()
 
-        self.overrideLabel = tk.Label(self, text="Time Slot Override: ", font=("Verdana", 10)).grid(row=6, column=1)
-        self.overrideTimeEntry = tk.Entry(self, textvariable=self.overrideTimeVar, font=("Verdana", 10)).grid(row=6, column=2)
-        self.overrideDayEntry = tk.Entry(self, textvariable=self.overrideDayVar, font=("Verdana", 10), width=10).grid(row=6, column=3)
-        self.overrideMonthEntry = tk.Entry(self, textvariable=self.overrideMonthVar, font=("Verdana", 10), width=10).grid(row=6, column=4)
-        self.overrideYearEntry = tk.Entry(self, textvariable=self.overrideYearVar, font=("Verdana", 10), width=10).grid(row=6, column=5)
+        self.aoverrideLabel = tk.Label(self, text="Time Slot Override: ", font=("Verdana", 10)).grid(row=7, column=1)
+        self.aoverrideTimeEntry = tk.Entry(self, textvariable=self.aoverrideTimeVar, font=("Verdana", 10)).grid(row=7, column=2)
+        self.atemplabel = tk.Label(self, text="24 hour format due date", font=("Verdana", 10)).grid(row=8, column=2)
+        self.aoverrideDayEntry = tk.Entry(self, textvariable=self.aoverrideDayVar, font=("Verdana", 10), width=10).grid(row=7, column=3)
+        self.atemplabel = tk.Label(self, text="Day", font=("Verdana", 10)).grid(row=8, column=3)
+        self.aoverrideMonthEntry = tk.Entry(self, textvariable=self.aoverrideMonthVar, font=("Verdana", 10), width=10).grid(row=7, column=4)
+        self.atemplabel = tk.Label(self, text="Month", font=("Verdana", 10)).grid(row=8, column=4)
+        self.aoverrideYearEntry = tk.Entry(self, textvariable=self.aoverrideYearVar, font=("Verdana", 10), width=10).grid(row=7, column=5)
+        self.atemplabel = tk.Label(self, text="Year", font=("Verdana", 10)).grid(row=8, column=5)
 
-        self.cancelButton = tk.Button(self, text="Cancel", command=self.closeWindow, width=10, font=("Verdana", 10)).grid(row=7, column=1)
-        self.saveButton = tk.Button(self, text="Save", command=self.saveChanges, width=10, font=("Verdana", 10)).grid(row=7, column=5)
-
+        self.acancelButton = tk.Button(self, text="Cancel", command=self.closeWindow, width=10, font=("Verdana", 10)).grid(row=9, column=1)
+        self.asaveButton = tk.Button(self, text="Save", command=self.saveChanges, width=10, font=("Verdana", 10)).grid(row=9, column=5)
+        
         self.updateWithSaved()
         self.pack()
         
@@ -248,22 +257,30 @@ class EditTaskFrame(tk.Frame):
         call function in other file with write to csv
         """
         print("savechanges")
+    def completed(self):
+        """
+        if name and task length is filled out
+        """
+        if self.anameVar.get() != "" and self.alengthVar.get() != "":
+            return True
+        return False
     def updateWithSaved(self):
         """
         call function in other file with task name receive csv information
         """
         print("update with saved")
-        self.overrideYearVar.set("edited")
+        if self.completed: 
+            self.aoverrideYearVar.set("edited")
 
     #getter functions
     def get_data(self):
         temp = []
-        temp.append(self.nameVar.get())
-        temp.append(self.descVar.get())
-        temp.append(self.importanceVar.get())
-        temp.append(self.lengthVar.get())
-        temp.append(self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get())
-        temp.append(self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get())
+        temp.append(self.anameVar.get())
+        temp.append(self.adescVar.get())
+        temp.append(self.aimportanceVar.get())
+        temp.append(self.alengthVar.get())
+        temp.append(self.adeadlineTimeVar.get(), self.adeadlineDayVar.get(), self.adeadlineMonthVar.get(), self.adeadlineYearVar.get())
+        temp.append(self.aoverrideTimeVar.get(), self.aoverrideDayVar.get(), self.aoverrideMonthVar.get(), self.aoverrideYearVar.get())
         #main.main(temp)
         return temp
 
@@ -292,6 +309,7 @@ class DeleteFrame(tk.Frame):
     def saveChanges(self):
         print("savechanges")
         #main.deleteTask(self.taskOptionVar())
+        self.closeWindow()
 
 class AddBusyTimeFrame(tk.Frame):
     def __init__(self, master):
@@ -299,25 +317,25 @@ class AddBusyTimeFrame(tk.Frame):
         self.master = master
 
         self.wakeUpVar = tk.StringVar()
-        self.wakeUpVar.set("0700")
+        self.wakeUpVar.set("0000")
         self.sleepVar = tk.StringVar()
-        self.sleepVar.set("2200")
+        self.sleepVar.set("0000")
         self.breakfastStartVar = tk.StringVar()
-        self.breakfastStartVar.set("0830")
+        self.breakfastStartVar.set("0000")
         self.breakfastEndVar = tk.StringVar()
-        self.breakfastEndVar.set("0900")
+        self.breakfastEndVar.set("0000")
         self.lunchStartVar = tk.StringVar()
-        self.lunchStartVar.set("1400")
+        self.lunchStartVar.set("0000")
         self.lunchEndVar = tk.StringVar()
-        self.lunchEndVar.set("1500")
+        self.lunchEndVar.set("0000")
         self.dinnerStartVar = tk.StringVar()
-        self.dinnerStartVar.set("1900")
+        self.dinnerStartVar.set("0000")
         self.dinnerEndVar = tk.StringVar()
-        self.dinnerEndVar.set("2000")
+        self.dinnerEndVar.set("0000")
         self.breakStartVar = tk.StringVar()
-        self.breakStartVar.set("1700")
+        self.breakStartVar.set("0000")
         self.breakEndVar = tk.StringVar()
-        self.breakEndVar.set("1720")
+        self.breakEndVar.set("0000")
 
         self.wakeUpLabel = tk.Label(self, text="Wakeup Time", font=("Verdana", 10)).grid(row=1, column=1)
         self.wakeUpEntry = tk.Entry(self, textvariable=self.wakeUpVar, font=("Verdana", 10)).grid(row=1, column=2)
@@ -355,6 +373,7 @@ class AddBusyTimeFrame(tk.Frame):
     def saveChanges(self):
         print("savechanges")
         #main.deleteTask(self.taskOptionVar())
+        self.closeWindow()
 def main():
     root = tk.Tk()
     app = MainApplication(root)
