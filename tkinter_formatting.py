@@ -193,7 +193,6 @@ class AddNewTaskFrame(tk.Frame):
         temp.append(temp2)
         temp3 = [self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get()]
         temp.append(temp3)
-        main(temp)
         return temp
 
 class EditTaskFrame(tk.Frame):
