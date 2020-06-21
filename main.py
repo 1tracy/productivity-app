@@ -104,6 +104,7 @@ def userInputOverride(override):
         return override
     
 def organizedTaskInfo(data):
+    print(data)
     organizedList = [
         userInputNameAndDesc(data[0], data[1]),
         userInputImportance(data[2]),
@@ -111,9 +112,11 @@ def organizedTaskInfo(data):
         userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
         userInputOverride(data[5])
         ]
+    return organizedList
     
 
 def writeToCsv(taskInfo):
+    print(taskInfo)
     with open ("csvOfTasks.csv", "a") as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(taskInfo)
