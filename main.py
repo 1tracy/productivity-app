@@ -149,6 +149,8 @@ def getTotalTimeInMin(time,day,m):
     #gets current date in mins relative to beginging of year
     totalMinsInDay = int(time[:2])*60 + int(time[3:5]) 
     totalDays = day
+    print("printing m")
+    print(m)
     for i in range (1,m):
         totalDays+= dateDict[i]
 
@@ -197,7 +199,7 @@ def organizedTaskInfo(data):
 
 def writeToCsv(taskInfo):
     print(taskInfo)
-    with open ("csvOfTasks.csv", "a") as csvFile:
+    with open ("csvOfTasks.csv", 'a+', newline='') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(taskInfo)
 
@@ -236,7 +238,20 @@ def countingSort(aList):
             #decrease counter by 1
             counter -= 1
 
-    return sortedList
+    reversedList = []
+    finalList = []   
+    for i in range (len(sortedList)-1,-1,-1):
+        reversedList.append(sortedList[i])
+    print(reversedList)
+    for i in range (0, len(reversedList)-1):
+        for item in aList:
+            if int(item[5]) == reversedList[i]:
+                finalList.append(item)
+    print("/n")
+    print("PRINTING FINAL LIST------------")
+    print(finalList)
+    print("PRINTING FINAL LIST------------")
+    return finalList
 
 def convertMinIntoTime(mins):
     hour = mins//60
@@ -287,7 +302,8 @@ def generateSchedule():
                         minutesInDayCount[count] += int(item[2])
                     else:
                         count += 1
-            
+        print("printing weekly -------------------------------------------")
+        print(weeklySchedule)    
         return weeklySchedule
     
     else:
@@ -317,7 +333,7 @@ def generateSchedule():
                         ["Dinner", setTimeList[4]],
                         ["Extra Break", setTimeList[5]]
                         )
-            
+        print(weeklySchedule)  
         return weeklySchedule
                     
                                 
