@@ -8,6 +8,8 @@ class MainApplication(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.master = master
+
+        self._day = 0
         
         self.dateVar = tk.StringVar()
         self.dateLabel = tk.Label(self, textvariable=self.dateVar, font=("Verdana", 10)).grid(row=1, columnspan=3)
@@ -32,7 +34,6 @@ class MainApplication(tk.Frame):
         print schedule
         """
         schedule = generateSchedule()
-        self._day = 0
         tempstring = ''
         for i in len(schedule[self._day]):
             tempstring = tempstring + schedule[self._day][i] + "\n"
@@ -281,7 +282,7 @@ class EditTaskFrame(tk.Frame):
         """
         print("completed " + self.anameVar.get() + self.alengthVar.get())
         if self.anameVar.get() != "" and self.alengthVar.get() != "":
-            return True
+            return True 
         return False
     def updateWithSaved(self):
         """
