@@ -16,17 +16,29 @@ class MainApplication(tk.Frame):
         self.scheduleVar = tk.StringVar()
         self.scheduleVar.set("Today's Schedule\n")
         self.scheduleMessage = tk.Message(self, textvariable=self.scheduleVar,bg="white", width=100, font=("Verdana", 15)).grid(row=2, rowspan=4, columnspan=3)
-
-        self.prevDayButton = tk.Button(self, text="<<", width=10, command=self.prevDay, font=("Verdana", 10)).grid(row=6, column=1)
         self.nextDayButton = tk.Button(self, text=">>", width=10, command=self.nextDay, font=("Verdana", 10)).grid(row=6, column=2)
 
         self.addNewTaskButton = tk.Button(self, text="Add New Task", width=20, command=self.addNewTask, font=("Verdana", 10)).grid(row=3, column=3)
         self.editNewTaskButton = tk.Button(self, text="Edit Task", width=20, command=self.editTask, font=("Verdana", 10)).grid(row=4, column=3)
         self.deleteTaskButton = tk.Button(self, text="Delete Task", width=20, command=self.deleteTask, font=("Verdana", 10)).grid(row=5, column=3)
         self.addBusyTimeButton = tk.Button(self, text="Add Busy Time", width=20, command=self.addBusyTime, font=("Verdana", 10)).grid(row=6, column=3)
+
+        self.printSchedule()
         
         self.pack()
 
+    def printSchedule(self):
+        """
+        print schedule
+        """
+        schedule = generateSchedule()
+        self._day = 0
+        tempstring = ''
+        for i in len(schedule[self._day]):
+            tempstring = tempstring + schedule[self._day][i] + "\n"
+        #print(schedule[self._day])
+        #self.scheduleVar.set(tempstring)
+        
     def addBusyTime(self):
         """
         add time where events cannot be scheduled
@@ -55,21 +67,14 @@ class MainApplication(tk.Frame):
         self.newWindow = tk.Toplevel(self)
         DeleteFrame(self)
         
-    def prevDay(self):
-        """
-        updates calendar to previous day
-        """
-        print("prevDay")
-        #data = getPrevDay(dt.datetime.today().day, str(self._m), self._y)
-        #self.scheduleVar.set(data)
-        
     def nextDay(self):
         """
         updates calendar to next day
         """
         print("nextDay")
-        #data = getNextDay(dt.datetime.today().day, str(self._m), self._y)
-        #Self.scheduleVar.set(data)
+        self._day += 1
+        self.printSchedule()
+        
     def getdate(self):
         """
         get date from datetime function

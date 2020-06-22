@@ -26,17 +26,6 @@ def getTaskNames():
         for row in readCSV:
             taskNames.append(row[0][0])
         return taskNames
-    
-
-def getPrevDay(day, month, year):
-    """
-    day, month, year are numerical strings
-    return calendar list for prev day
-    """
-    pass
-
-def getNextDay(day, month, year):
-    pass
 
 def getDataFromCSV(task_name):
     """
@@ -233,7 +222,6 @@ def generateSchedule():
     Generates the weekly schedule
     """
     minutesInDayCount = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
-    ogranizedList = organizeDataFromCSV()
     allTasksList = gatherAllTasks()
     organizedListRatioBased = countingSort(allTasksList)
     weeklySchedule = []
