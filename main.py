@@ -48,6 +48,9 @@ def countingSort(aList):
             counter -= 1
 
     return sortedList
+
+def getNextDay():
+    pass
 def getTaskNames():
     """
     return a list of task names from CSV
@@ -186,8 +189,9 @@ def organizedTaskInfo(data):
         userInputLength(data[3]),
         userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
         userInputOverride(data[5]),
-        round(userInputImportance(data[2])/userInputLength(data[3])),
+        round(userInputImportance(data[2])/userInputLength(data[3]))
         ]
+    print(organizedList)
     return organizedList
 
 
@@ -200,9 +204,12 @@ def writeToCsv(taskInfo):
 
 def countingSort(aList):
     #find max importance/time
+    print(aList)
     temp = []
-    for i in range(0, max(aList) + 1):
-        temp.append(aList[5])
+    for item in aList:
+        print("printing item")
+        print(item)
+        temp.append(int(item[5]))
         
     #create the key or counting array based on max value in list
     key = []
@@ -292,9 +299,3 @@ def generateSchedule():
 def main(data):
     print("s")
     writeToCsv(organizedTaskInfo(data))
-
-
-
-            
-
-    

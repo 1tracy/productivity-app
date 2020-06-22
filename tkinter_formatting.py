@@ -188,6 +188,7 @@ class AddNewTaskFrame(tk.Frame):
         if self.completed():
             print("Ee")
             main(self.get_data())
+            self.master.printSchedule()
             self.closeWindow()
         
         
@@ -275,6 +276,7 @@ class EditTaskFrame(tk.Frame):
         print("savechanges")
         if self.completed():
            main(self.get_data())
+           self.master.printSchedule()
            self.closeWindow()
     def completed(self):
         """
@@ -293,7 +295,13 @@ class EditTaskFrame(tk.Frame):
             #biglist = getDataFromCSV(self.anameVar.get())
             #set variables to biglist indexes
             #self.anameVar.set(#)
-            #...
+            #self.adescVar.set(#)
+            #self.aimportanceVar.set(#)
+            #self.alengthVar.set(#)
+            #self.adeadlineTimeVar.set(#)
+            #self.adeadlineDayVar.set(#)
+            #self.adeadlineMonthVar.set(#)
+            #self.adeadlineYearVar.set(#)
             self.aoverrideYearVar.set("edited")
 
     def get_data(self):
@@ -333,7 +341,8 @@ class DeleteFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        #main.deleteTask(self.taskOptionVar())
+        #deleteTask(self.taskOptionVar())
+        self.master.printSchedule()
         self.closeWindow()
 
 class AddBusyTimeFrame(tk.Frame):
@@ -398,6 +407,7 @@ class AddBusyTimeFrame(tk.Frame):
     def saveChanges(self):
         print("savechanges")
         userInputSetAllocation(self.get_data())
+        self.master.printSchedule()
         self.closeWindow()
     def get_data(self):
         t = [self.wakeUpVar.get(),
