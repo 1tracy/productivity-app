@@ -238,7 +238,20 @@ def countingSort(aList):
             #decrease counter by 1
             counter -= 1
 
-    return sortedList
+    reversedList = []
+    finalList = []   
+    for i in range (len(sortedList)-1,-1,-1):
+        reversedList.append(sortedList[i])
+    print(reversedList)
+    for i in range (0, len(reversedList)-1):
+        for item in aList:
+            if int(item[5]) == reversedList[i]:
+                finalList.append(item)
+    print("/n")
+    print("PRINTING FINAL LIST------------")
+    print(finalList)
+    print("PRINTING FINAL LIST------------")
+    return finalList
 
 def convertMinIntoTime(mins):
     hour = mins//60
