@@ -8,6 +8,8 @@ class MainApplication(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.master = master
+
+        self._day = 0
         
         self.dateVar = tk.StringVar()
         self.dateLabel = tk.Label(self, textvariable=self.dateVar, font=("Verdana", 10)).grid(row=1, columnspan=3)
@@ -16,17 +18,28 @@ class MainApplication(tk.Frame):
         self.scheduleVar = tk.StringVar()
         self.scheduleVar.set("Today's Schedule\n")
         self.scheduleMessage = tk.Message(self, textvariable=self.scheduleVar,bg="white", width=100, font=("Verdana", 15)).grid(row=2, rowspan=4, columnspan=3)
-
-        self.prevDayButton = tk.Button(self, text="<<", width=10, command=self.prevDay, font=("Verdana", 10)).grid(row=6, column=1)
         self.nextDayButton = tk.Button(self, text=">>", width=10, command=self.nextDay, font=("Verdana", 10)).grid(row=6, column=2)
 
         self.addNewTaskButton = tk.Button(self, text="Add New Task", width=20, command=self.addNewTask, font=("Verdana", 10)).grid(row=3, column=3)
         self.editNewTaskButton = tk.Button(self, text="Edit Task", width=20, command=self.editTask, font=("Verdana", 10)).grid(row=4, column=3)
         self.deleteTaskButton = tk.Button(self, text="Delete Task", width=20, command=self.deleteTask, font=("Verdana", 10)).grid(row=5, column=3)
         self.addBusyTimeButton = tk.Button(self, text="Add Busy Time", width=20, command=self.addBusyTime, font=("Verdana", 10)).grid(row=6, column=3)
+
+        self.printSchedule()
         
         self.pack()
 
+    def printSchedule(self):
+        """
+        print schedule
+        """
+        schedule = generateSchedule()
+        tempstring = ''
+        for i in len(schedule[self._day]):
+            tempstring = tempstring + schedule[self._day][i] + "\n"
+        #print(schedule[self._day])
+        #self.scheduleVar.set(tempstring)
+        
     def addBusyTime(self):
         """
         add time where events cannot be scheduled
@@ -55,21 +68,14 @@ class MainApplication(tk.Frame):
         self.newWindow = tk.Toplevel(self)
         DeleteFrame(self)
         
-    def prevDay(self):
-        """
-        updates calendar to previous day
-        """
-        print("prevDay")
-        #data = getPrevDay(dt.datetime.today().day, str(self._m), self._y)
-        #self.scheduleVar.set(data)
-        
     def nextDay(self):
         """
         updates calendar to next day
         """
         print("nextDay")
-        #data = getNextDay(dt.datetime.today().day, str(self._m), self._y)
-        #Self.scheduleVar.set(data)
+        self._day += 1
+        self.printSchedule()
+        
     def getdate(self):
         """
         get date from datetime function
@@ -182,6 +188,7 @@ class AddNewTaskFrame(tk.Frame):
         if self.completed():
             print("Ee")
             main(self.get_data())
+            self.master.printSchedule()
             self.closeWindow()
         
         
@@ -269,6 +276,7 @@ class EditTaskFrame(tk.Frame):
         print("savechanges")
         if self.completed():
            main(self.get_data())
+           self.master.printSchedule()
            self.closeWindow()
     def completed(self):
         """
@@ -276,7 +284,7 @@ class EditTaskFrame(tk.Frame):
         """
         print("completed " + self.anameVar.get() + self.alengthVar.get())
         if self.anameVar.get() != "" and self.alengthVar.get() != "":
-            return True
+            return True 
         return False
     def updateWithSaved(self):
         """
@@ -287,18 +295,25 @@ class EditTaskFrame(tk.Frame):
             #biglist = getDataFromCSV(self.anameVar.get())
             #set variables to biglist indexes
             #self.anameVar.set(#)
-            #...
+            #self.adescVar.set(#)
+            #self.aimportanceVar.set(#)
+            #self.alengthVar.set(#)
+            #self.adeadlineTimeVar.set(#)
+            #self.adeadlineDayVar.set(#)
+            #self.adeadlineMonthVar.set(#)
+            #self.adeadlineYearVar.set(#)
             self.aoverrideYearVar.set("edited")
 
-    #getter functions
     def get_data(self):
         temp = []
-        temp.append(self.anameVar.get())
-        temp.append(self.adescVar.get())
-        temp.append(self.aimportanceVar.get())
-        temp.append(self.alengthVar.get())
-        temp.append(self.adeadlineTimeVar.get(), self.adeadlineDayVar.get(), self.adeadlineMonthVar.get(), self.adeadlineYearVar.get())
-        temp.append(self.aoverrideTimeVar.get(), self.aoverrideDayVar.get(), self.aoverrideMonthVar.get(), self.aoverrideYearVar.get())
+        temp.append(self.nameVar.get())
+        temp.append(self.descVar.get())
+        temp.append(self.importanceVar.get())
+        temp.append(self.lengthVar.get())
+        temp2 = [self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get()]
+        temp.append(temp2)
+        temp3 = [self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get()]
+        temp.append(temp3)
         return temp
 
 class DeleteFrame(tk.Frame):
@@ -326,7 +341,8 @@ class DeleteFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        #main.deleteTask(self.taskOptionVar())
+        #deleteTask(self.taskOptionVar())
+        self.master.printSchedule()
         self.closeWindow()
 
 class AddBusyTimeFrame(tk.Frame):
@@ -390,10 +406,17 @@ class AddBusyTimeFrame(tk.Frame):
         self.master.newWindow.destroy()
     def saveChanges(self):
         print("savechanges")
-        main.userInputSetAllocation(self.get_data())
+        userInputSetAllocation(self.get_data())
+        self.master.printSchedule()
         self.closeWindow()
     def get_data(self):
-        t = [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(), self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(), self.dinnerStartVar.get(), self.dinnerEndVar.get(), self.breakStartVar.get(), self.breakEndVar.get()]
+        t = [self.wakeUpVar.get(),
+             self.sleepVar.get(),
+             [self.breakfastStartVar.get(), self.breakfastEndVar.get()],
+             [self.lunchStartVar.get(), self.lunchEndVar.get()],
+             [self.dinnerStartVar.get(), self.dinnerEndVar.get()],
+             [self.breakStartVar.get(), self.breakEndVar.get()]
+             ]
         return t
     
 def maine():
