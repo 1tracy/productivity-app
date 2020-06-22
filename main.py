@@ -198,11 +198,11 @@ def organizedTaskInfo(data):
 
 
 def writeToCsv(taskInfo):
+    print("printing TASK INFO=========================")
     print(taskInfo)
-    with open ("csvOfTasks.csv", 'a+', newline='') as csvFile:
+    with open ("csvOfTasks.csv", "a",newline='') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(taskInfo)
-
 
 def countingSort(aList):
     #find max importance/time
@@ -247,7 +247,7 @@ def countingSort(aList):
         for item in aList:
             if int(item[5]) == reversedList[i]:
                 finalList.append(item)
-    print("/n")
+    print("\n")
     print("PRINTING FINAL LIST------------")
     print(finalList)
     print("PRINTING FINAL LIST------------")
@@ -264,7 +264,7 @@ def gatherAllTasks():
     """
     bigList = []
 
-    with open ("csvOfTasks.csv") as csvFile:
+    with open ("csvOfTasks.csv", "r") as csvFile:
         reader = csv.reader(csvFile)
         for row in reader:
             bigList.append(row)
@@ -341,4 +341,5 @@ def generateSchedule():
     
 def main(data):
     print("s")
+    print(organizedTaskInfo(data))
     writeToCsv(organizedTaskInfo(data))
