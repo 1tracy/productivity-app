@@ -16,6 +16,38 @@ day = int(dt.datetime.today().day)
 #-Time slots for liesure 
 #-Deadline
 #-Time slot override (time & date)
+def countingSort(aList):
+    #find max importance/time
+    temp = []
+    for item in aList:
+        temp.append(aList[5])
+
+    #create the key or counting array based on max value in list
+    key = []
+    for i in range(0, max(temp) + 1):
+        key.append(0)
+
+    #iterate through given list and increase counters of key
+    #for each element in list
+    for num in aList:
+        #increase the respective counter by 1
+        key[num[5]] += 1
+
+
+    #create a new list with values in sorted order based on couters of key
+    sortedList = []
+    #for each counter, starting from smallest key
+    for i in range(0, len(key)):
+        counter = key[i]
+
+        #while counter is non-zero
+        while(counter > 0):
+            #restore element to list
+            sortedList.append(i)
+            #decrease counter by 1
+            counter -= 1
+
+    return sortedList
 def getTaskNames():
     """
     return a list of task names from CSV
