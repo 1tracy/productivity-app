@@ -25,7 +25,7 @@ class MainApplication(tk.Frame):
         self.deleteTaskButton = tk.Button(self, text="Delete Task", width=20, command=self.deleteTask, font=("Verdana", 10)).grid(row=5, column=3)
         self.addBusyTimeButton = tk.Button(self, text="Add Busy Time", width=20, command=self.addBusyTime, font=("Verdana", 10)).grid(row=6, column=3)
 
-        self.printSchedule()
+        #self.printSchedule()
         
         self.pack()
 
