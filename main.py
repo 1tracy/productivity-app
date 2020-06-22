@@ -189,7 +189,7 @@ def organizedTaskInfo(data):
         userInputLength(data[3]),
         userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
         userInputOverride(data[5]),
-        round(userInputImportance(data[2])/userInputLength(data[3]))
+        int(round(userInputImportance(data[2])/userInputLength(data[3])))
         ]
     print(organizedList)
     return organizedList
@@ -220,7 +220,7 @@ def countingSort(aList):
     #for each element in list
     for num in aList:
         #increase the respective counter by 1
-        key[num[5]] += 1
+        key[int(num[5])] += 1
 
 
     #create a new list with values in sorted order based on couters of key
@@ -264,34 +264,64 @@ def generateSchedule():
     allTasksList = gatherAllTasks()
     organizedListRatioBased = countingSort(allTasksList)
     weeklySchedule = []
-    startTime = setTimeList[0]
-    endTime = setTimeList[1]
-    
-    for i in range (0,6):
-        weeklySchedule.append([])
-        
-    for item in allTasksList:
-        if item[4] != False:
-            weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
+    if len(setTimeList) == 0:
+        for i in range (0,6):
+            weeklySchedule.append([])
+            
+        for item in allTasksList:
+            if item[4] != False:
+                weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
+            else:
+                pass
 
-    totalSetTime = setTimeList[2][1] + setTimeList[3][1] + setTimeList[4][1] + setTimeList[5][1]
-    count = 0        
-    for item in allTasksList:
-        if item[4] == False:
-            if count <=6:
-                if (minutesInDayCount[count] + item[2] + totalSetTime) <=(endTime-startTime):
-                    weeklySchedule[count].append([item[0],item[2]])
-                    minutesInDayCount[count] += item[2]
-                else:
-                    count += 1
-    for item in weeklySchedule:
-        item.append(["Breakfast", setTimeList[2]],
-                    ["Lunch",setTimeList[3]],
-                    ["Dinner", setTimeList[4]],
-                    ["Extra Break", setTimeList[5]]
-                    )
+        totalSetTime = 0
+        count = 0        
+        for item in allTasksList:
+            if item[4] == False:
+                if count <=6:
+                    if (minutesInDayCount[count] + item[2] + totalSetTime) <=(endTime-startTime):
+                        weeklySchedule[count].append([item[0],item[2]])
+                        minutesInDayCount[count] += item[2]
+                    else:
+                        count += 1
+        for item in weeklySchedule:
+            item.append(["Breakfast", setTimeList[2]],
+                        ["Lunch",setTimeList[3]],
+                        ["Dinner", setTimeList[4]],
+                        ["Extra Break", setTimeList[5]]
+                        )
+            
+        return weeklySchedule
+    
+    else:
+        startTime = setTimeList[0]
+        endTime = setTimeList[1]
         
-    return weeklySchedule
+        for i in range (0,6):
+            weeklySchedule.append([])
+            
+        for item in allTasksList:
+            if item[4] != False:
+                weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
+
+        totalSetTime = setTimeList[2][1] + setTimeList[3][1] + setTimeList[4][1] + setTimeList[5][1]
+        count = 0        
+        for item in allTasksList:
+            if item[4] == False:
+                if count <=6:
+                    if (minutesInDayCount[count] + item[2] + totalSetTime) <=(endTime-startTime):
+                        weeklySchedule[count].append([item[0],item[2]])
+                        minutesInDayCount[count] += item[2]
+                    else:
+                        count += 1
+        for item in weeklySchedule:
+            item.append(["Breakfast", setTimeList[2]],
+                        ["Lunch",setTimeList[3]],
+                        ["Dinner", setTimeList[4]],
+                        ["Extra Break", setTimeList[5]]
+                        )
+            
+        return weeklySchedule
                     
                                 
     
