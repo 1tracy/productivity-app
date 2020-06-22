@@ -296,15 +296,16 @@ class EditTaskFrame(tk.Frame):
             #...
             self.aoverrideYearVar.set("edited")
 
-    #getter functions
     def get_data(self):
         temp = []
-        temp.append(self.anameVar.get())
-        temp.append(self.adescVar.get())
-        temp.append(self.aimportanceVar.get())
-        temp.append(self.alengthVar.get())
-        temp.append(self.adeadlineTimeVar.get(), self.adeadlineDayVar.get(), self.adeadlineMonthVar.get(), self.adeadlineYearVar.get())
-        temp.append(self.aoverrideTimeVar.get(), self.aoverrideDayVar.get(), self.aoverrideMonthVar.get(), self.aoverrideYearVar.get())
+        temp.append(self.nameVar.get())
+        temp.append(self.descVar.get())
+        temp.append(self.importanceVar.get())
+        temp.append(self.lengthVar.get())
+        temp2 = [self.deadlineTimeVar.get(), self.deadlineDayVar.get(), self.deadlineMonthVar.get(), self.deadlineYearVar.get()]
+        temp.append(temp2)
+        temp3 = [self.overrideTimeVar.get(), self.overrideDayVar.get(), self.overrideMonthVar.get(), self.overrideYearVar.get()]
+        temp.append(temp3)
         return temp
 
 class DeleteFrame(tk.Frame):
