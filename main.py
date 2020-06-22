@@ -16,6 +16,41 @@ day = int(dt.datetime.today().day)
 #-Time slots for liesure 
 #-Deadline
 #-Time slot override (time & date)
+def countingSort(aList):
+    #find max importance/time
+    temp = []
+    for item in aList:
+        temp.append(aList[5])
+
+    #create the key or counting array based on max value in list
+    key = []
+    for i in range(0, max(temp) + 1):
+        key.append(0)
+
+    #iterate through given list and increase counters of key
+    #for each element in list
+    for num in aList:
+        #increase the respective counter by 1
+        key[num[5]] += 1
+
+
+    #create a new list with values in sorted order based on couters of key
+    sortedList = []
+    #for each counter, starting from smallest key
+    for i in range(0, len(key)):
+        counter = key[i]
+
+        #while counter is non-zero
+        while(counter > 0):
+            #restore element to list
+            sortedList.append(i)
+            #decrease counter by 1
+            counter -= 1
+
+    return sortedList
+
+def getNextDay():
+    pass
 def getTaskNames():
     """
     return a list of task names from CSV
@@ -26,17 +61,6 @@ def getTaskNames():
         for row in readCSV:
             taskNames.append(row[0][0])
         return taskNames
-    
-
-def getPrevDay(day, month, year):
-    """
-    day, month, year are numerical strings
-    return calendar list for prev day
-    """
-    pass
-
-def getNextDay(day, month, year):
-    pass
 
 def getDataFromCSV(task_name):
     """
@@ -65,45 +89,7 @@ def deleteTask(task_name):
             else:
                 return "task name not found"
 
-def getTaskNames():
-    """
-    return a list of task names from CSV
-    """
-    pass
 
-def getPrevDay(day, month, year):
-    """
-    day, month, year are numerical strings
-    return calendar list for prev day
-    """
-    pass
-
-def getNextDay(day, month, year):
-    pass
-
-def getDataFromCSV(task_name):
-    """
-    return list from CSV for task name specifically
-    """
-    pass
-
-
-def deleteTask(task_name):
-    """
-    delete task from CSV given task name
-    """
-    pass
-
-def addBreakTimes(breaklist):
-    """
-    add break times given break list
-    format:
-    [self.wakeUpVar.get(), self.sleepVar.get(), self.breakfastStartVar.get(),
-    self.breakfastEndVar.get(), self.lunchStartVar.get(), self.lunchEndVar.get(),
-    self.dinnerStartVar.get(),self.dinnerEndVar.get(), self.breakStartVar.get(),
-    self.breakEndVar.get()]
-    """
-    pass
 #check if it is interger
 def checkInt(s):
     try: 
@@ -151,10 +137,12 @@ def userInputTaskDeadline(taskDeadline, currentDateInMin,y):
         return deltaTime
     
 def getTimeInMin(item):
+    print(item)
     #gets time like '1230' and converts to min relative to 00:00
     hoursToMin = int((item[:2])) * 60
     extraMin = int((item[2:]))
     totalTimeInMin = hoursToMin + extraMin
+    print(totalTimeInMin)
     return (totalTimeInMin)
 
 def getTotalTimeInMin(time,day,m):
@@ -173,7 +161,7 @@ def userInputSetAllocation(alloTimeList):
     #[wakeup,sleep,[breakfastStart, breakfastEnd],[lunchStart, lunchEnd],[dinnerStart, dinnerEnd],[extraBreakStart, extraBreakEnd]]
     #returns a 4 digit string
     parsedAlloTimeList = []
-    for i in range (0,2): 
+    for i in range (0,1): 
         if checkInt(alloTimeList[i]) == True:
             parsedAlloTimeList.append(getTimeInMin(alloTimeList[i]))
     for i in range(2, len(alloTimeList)):
@@ -201,8 +189,9 @@ def organizedTaskInfo(data):
         userInputLength(data[3]),
         userInputTaskDeadline(data[4],getTotalTimeInMin(time,day,m),y),
         userInputOverride(data[5]),
-        round(userInputImportance(data[2])/userInputLength(data[3])),
+        round(userInputImportance(data[2])/userInputLength(data[3]))
         ]
+    print(organizedList)
     return organizedList
 
 
@@ -215,9 +204,12 @@ def writeToCsv(taskInfo):
 
 def countingSort(aList):
     #find max importance/time
+    print(aList)
     temp = []
-    for i in range(0, max(aList) + 1):
-        temp.append(aList[5])
+    for item in aList:
+        print("printing item")
+        print(item)
+        temp.append(int(item[5]))
         
     #create the key or counting array based on max value in list
     key = []
@@ -269,7 +261,6 @@ def generateSchedule():
     Generates the weekly schedule
     """
     minutesInDayCount = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
-    ogranizedList = organizeDataFromCSV()
     allTasksList = gatherAllTasks()
     organizedListRatioBased = countingSort(allTasksList)
     weeklySchedule = []
@@ -282,17 +273,24 @@ def generateSchedule():
     for item in allTasksList:
         if item[4] != False:
             weeklySchedule[int(item[4][1]) - day -1].append([item[0],item[4]]) #[walk dog,["1230","3","10,"2020"]
-            
+
+    totalSetTime = setTimeList[2][1] + setTimeList[3][1] + setTimeList[4][1] + setTimeList[5][1]
+    count = 0        
     for item in allTasksList:
         if item[4] == False:
-            count = 0
             if count <=6:
-                if (minutesInDayCount[count] + item[2] + setTimeList[2][1] + setTimeList[3][1]) <=(endTime-startTime):
+                if (minutesInDayCount[count] + item[2] + totalSetTime) <=(endTime-startTime):
                     weeklySchedule[count].append([item[0],item[2]])
                     minutesInDayCount[count] += item[2]
                 else:
                     count += 1
-
+    for item in weeklySchedule:
+        item.append(["Breakfast", setTimeList[2]],
+                    ["Lunch",setTimeList[3]],
+                    ["Dinner", setTimeList[4]],
+                    ["Extra Break", setTimeList[5]]
+                    )
+        
     return weeklySchedule
                     
                                 
@@ -301,9 +299,3 @@ def generateSchedule():
 def main(data):
     print("s")
     writeToCsv(organizedTaskInfo(data))
-
-
-
-            
-
-    
