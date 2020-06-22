@@ -36,7 +36,8 @@ class MainApplication(tk.Frame):
         schedule = generateSchedule()
         tempstring = ''
         for i in range(len(schedule[self._day])):
-            tempstring = tempstring + schedule[self._day][i] + "\n"
+            print("i"+i)
+            tempstring = tempstring + schedule[self._day][i][0] + schedule[self._day][i][1] + "\n"
         #print(schedule[self._day])
         #self.scheduleVar.set(tempstring)
         
